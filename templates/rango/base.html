@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Rango{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+</head>
+<body>
+  <header>
+    <!-- Common header content -->
+  </header>
+  <div class="content">
+    {% block content %}
+    <!-- Default content (if any) -->
+    {% endblock %}
+  </div>
+  <footer>
+    <!-- Common footer content -->
+  </footer>
+</body>
+</html>
