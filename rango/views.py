@@ -27,13 +27,13 @@ def index(request):
     else:
         request.session['last_visit'] = str(datetime.now())
 
-    request.session['visits'] = visits  # Update session data
+    request.session['visits'] = visits  
 
     context_dict = {
         'boldmessage': 'Crunchy, creamy, cookie, candy, cupcake!',
         'categories': category_list,
         'pages': page_list,
-        'visits': visits  # Pass visit count to template
+        'visits': visits  
     }
     
     return render(request, 'rango/index.html', context=context_dict)
