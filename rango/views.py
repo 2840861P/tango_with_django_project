@@ -8,7 +8,6 @@ from rango.forms import PageForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-
 # Create your views here.
 
 def index(request):
@@ -83,6 +82,23 @@ def add_page(request, category_name_slug):
             print(form.errors)
     context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context=context_dict)
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            if user:
+                login(request, user)
+                return redirect('rango:index')
+    else:
+        form = UserCreationForm()
+    
+    return render(request, 'rango/register.html', {'form': form})
+
 
 
 
