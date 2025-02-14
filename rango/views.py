@@ -4,7 +4,11 @@ from rango.models import Category,Page
 from rango.forms import CategoryForm
 from django.shortcuts import redirect
 from django.urls import reverse
-from rango.forms import PageForm 
+from rango.forms import PageForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
 # Create your views here.
 
 def index(request):
@@ -79,7 +83,6 @@ def add_page(request, category_name_slug):
             print(form.errors)
     context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context=context_dict)
-
 
 
 
