@@ -5,6 +5,7 @@ from rango.forms import CategoryForm
 from django.shortcuts import redirect
 from django.urls import reverse
 from rango.forms import PageForm
+from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -12,13 +13,30 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
-    context_dict = {}
-    context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
-    context_dict['categories'] = category_list
-    page_list= Page.objects.order_by('-views')[:5]
-    context_dict['pages'] = page_list 
-    return render(request, 'rango/index.html', context=context_dict)
+    page_list = Page.objects.order_by('-views')[:5]
+    
+    # Retrieve visit count from session
+    visits = request.session.get('visits', 1)
+    last_visit = request.session.get('last_visit')
 
+    if last_visit:
+        last_visit_time = datetime.strptime(last_visit, "%Y-%m-%d %H:%M:%S.%f")
+        if (datetime.now() - last_visit_time).seconds > 5:  # Reset after 5 seconds (for testing)
+            visits += 1
+            request.session['last_visit'] = str(datetime.now())
+    else:
+        request.session['last_visit'] = str(datetime.now())
+
+    request.session['visits'] = visits  # Update session data
+
+    context_dict = {
+        'boldmessage': 'Crunchy, creamy, cookie, candy, cupcake!',
+        'categories': category_list,
+        'pages': page_list,
+        'visits': visits  # Pass visit count to template
+    }
+    
+    return render(request, 'rango/index.html', context=context_dict)
 
 
 def about(request):
