@@ -1,0 +1,10 @@
+{% extends 'rango/base.html' %}
+{% block title %}Register - Rango{% endblock %}
+{% block content %}
+  <h1>Register</h1>
+  <form method="post" action="{% url 'rango:register' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Register">
+  </form>
+{% endblock %}
