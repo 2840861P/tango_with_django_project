@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}Rango{% endblock %}</title>
-  {% load staticfiles %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+    <title>{% block title %}Rango{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="{% url 'rango:index' %}">Home</a></li>
-        <li><a href="{% url 'rango:about' %}">About</a></li>
-        {% if user.is_authenticated %}
-          <li><a href="{% url 'rango:add_category' %}">Add Category</a></li>
-          <li><a href="{% url 'rango:logout' %}">Logout ({{ user.username }})</a></li>
-        {% else %}
-          <li><a href="{% url 'rango:login' %}">Login</a></li>
-          <li><a href="{% url 'rango:register' %}">Register</a></li>
-        {% endif %}
-      </ul>
-    </nav>
-  </header>
-  
-  <div class="content">
-    {% block content %}
-      <h2>Welcome to Rango!</h2>
-      <p>Enjoy browsing categories and pages.</p>
-    {% endblock %}
-  </div>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'rango:index' %}">Home</a></li>
+                <li><a href="{% url 'rango:about' %}">About</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'rango:add_category' %}">Add Category</a></li>
+                    <li><a href="{% url 'rango:logout' %}">Logout ({{ user.username }})</a></li>
+                    <li>Last login: {{ user.last_login }}</li>
+                {% else %}
+                    <li><a href="{% url 'rango:login' %}">Login</a></li>
+                    <li><a href="{% url 'rango:register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
 
-  <footer>
-    <p>© 2024 Rango Inc. All rights reserved.</p>
-  </footer>
+    <div class="content">
+        {% block content %}
+            <h2>Welcome to Rango!</h2>
+            <p>Enjoy browsing categories and pages.</p>
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>© 2024 Rango Inc. All rights reserved.</p>
+    </footer>
 </body>
 </html>
